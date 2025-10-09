@@ -1,0 +1,15 @@
+# Ignore large data and local files
+data/raw/
+*.csv
+*.xlsx
+*.zip
+*.sav
+*.parquet
+*.pickle
+
+# Ignore temporary files
+__pycache__/
+*.pyc
+.DS_Store
+.env
+.ipynb_checkpoints/
