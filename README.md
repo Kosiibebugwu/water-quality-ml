@@ -14,6 +14,7 @@ reports/
 - **Kosi:** Data preprocessing, parameter selection, and data quality analysis.
 - **Noor:** Exploratory visualisation and statistical analysis.
 - **Lucy:** MLR model building and interpretation.
+- **John:** Code quality assurance, debugging and optimisation of scripts.
 
 ## Instructions
 1. Place `water-quality-1.csv` in the `data/raw/` folder (not included in repo).
@@ -22,3 +23,4 @@ reports/
 
 ## Notes
 Raw data is excluded for size and privacy reasons. Placeholders remain in the repo to indicate file structure.
+
