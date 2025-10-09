@@ -27,5 +27,7 @@ reports/
 
 ## Notes
 Raw data is excluded for size and privacy reasons. Placeholders remain in the repo to indicate file structure.
-Individual mini reports don't need to be fully fomral or polished.
+Individual mini reports don't need to be fully formal or polished.
 Use them for housekeeping, we can combine to make the final report for the upload.
+Please upload under _reports/individual_.
+
