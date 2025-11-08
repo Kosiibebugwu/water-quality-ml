@@ -18,7 +18,7 @@ reports/
 
 ## Instructions
 1. Place `water-quality-1.csv` in the `data/raw/` folder (not included in repo).
-2. Run `preprocess.py` to prepare the data.
+2. Run `preprocess_updated.py` to prepare the data.
 3. Output will be saved to `data/processed/`.
 4. Each member should maintain a short mini-report describing:
      - The task they completed (e.g preprocessing, visualisation, modelling).
@@ -30,4 +30,5 @@ Raw data is excluded for size and privacy reasons. Placeholders remain in the re
 Individual mini reports don't need to be fully formal or polished.
 Use them for housekeeping, we can combine to make the final report for the upload.
 Please upload under _reports/individual_.
+
 
