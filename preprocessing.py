@@ -1,17 +1,18 @@
-import pandas as pd
+import pandas as pd 
 import numpy as np
 from sklearn.impute import KNNImputer
+from sklearn.preprocessing import StandardScaler
 
+# Load datase
 df = pd.read_csv(r"C:\Users\kosii\OneDrive\Documents\water-quality-1.csv")
 
-# Convert American-style timestamps to datetime (ignore hour/min)
+# Convert timestamps and derive temporal features
 df['Collect DateTime'] = pd.to_datetime(
     df['Collect DateTime'],
     format='%m/%d/%Y %I:%M:%S %p',
     errors='coerce'
 ).dt.date
 
-# Derive temporal features
 df['Year'] = pd.to_datetime(df['Collect DateTime']).dt.year
 df['Month'] = pd.to_datetime(df['Collect DateTime']).dt.month
 
@@ -27,8 +28,7 @@ def get_season(month):
 
 df['Season'] = df['Month'].apply(get_season)
 
-
-#Keep only relevant WQI parameters
+# Keep only relevant WQI parameters
 relevant_params = [
     "pH  Field", "Temperature", "Dissolved Oxygen  Field", "Conductivity  Field",
     "Total Nitrogen", "Total Phosphorus", "Nitrate Nitrogen", "Orthophosphate Phosphorus"
@@ -36,11 +36,7 @@ relevant_params = [
 
 df_filtered = df[df["Parameter"].isin(relevant_params)].copy()
 
-print("Filtered dataset shape:", df_filtered.shape)
-print("Unique parameters kept:", df_filtered["Parameter"].unique())
-
-
-#Pivot to wide format
+# Pivot to wide format
 df_wide = df_filtered.pivot_table(
     index=['Sample ID', 'Collect DateTime', 'Year', 'Month', 'Season'],
     columns='Parameter',
@@ -48,15 +44,10 @@ df_wide = df_filtered.pivot_table(
     aggfunc='mean'
 ).reset_index()
 
-#Simplify column names
 df_wide.columns.name = None
 df_wide.columns = [str(c).strip().replace("  ", " ") for c in df_wide.columns]
 
-print("Wide dataset shape:", df_wide.shape)
-print("Columns:", df_wide.columns.tolist())
-
-
-#Rename and subset for analysis
+# Rename and subset
 cols_rename = {
     "pH Field": "pH",
     "Dissolved Oxygen Field": "DO",
@@ -69,53 +60,47 @@ cols_rename = {
 
 df_small = df_wide.rename(columns=cols_rename).copy()
 
-#Reorder columns neatly
 df_small = df_small[[
-    'pH', 'DO', 'Conductivity', 'Temperature', 'Total_N',
-    'Total_P', 'Nitrate', 'Orthophosphate', 'Year', 'Month', 'Season'
+    'pH', 'DO', 'Conductivity', 'Temperature', 
+    'Total_N', 'Total_P', 'Nitrate', 'Orthophosphate', 
+    'Year', 'Month', 'Season'
 ]]
 
-print(df_small.head())
-print(df_small.shape)
-
-
-# Missingness summary
+# Missingness Summary
 missing_info = pd.DataFrame({
     "Missing Count": df_small.isna().sum(),
     "Missing %": (df_small.isna().sum() / len(df_small) * 100).round(2)
 }).sort_values(by="Missing %", ascending=False)
 
-print(missing_info)
+print("\nMissingness Summary:\n", missing_info, "\n")
 
-#Outlier removal
-def remove_outliers_iqr(df, column):
-    Q1 = df[column].quantile(0.25)
-    Q3 = df[column].quantile(0.75)
-    IQR = Q3 - Q1
-    lower = Q1 - 1.5 * IQR
-    upper = Q3 + 1.5 * IQR
-    return df[(df[column] >= lower) & (df[column] <= upper)]
+# Tiered Imputation
+# Tier 1: KNN for moderately missing features
+tier1_cols = ['Temperature', 'pH', 'DO', 'Conductivity']
 
-numeric_cols = ['Temperature', 'pH', 'DO', 'Conductivity', 
-                'Total_N', 'Total_P', 'Nitrate', 'Orthophosphate']
-
-for col in numeric_cols:
-    df_small = remove_outliers_iqr(df_small, col)
-
-#KNN imputation (Temperature only)
 imputer = KNNImputer(n_neighbors=5)
-df_small['Temperature'] = imputer.fit_transform(df_small[['Temperature']])
+df_small[tier1_cols] = imputer.fit_transform(df_small[tier1_cols])
 
-#PRE-1990 TEMPERTURE SPIKE
-year_counts = df_small['Year'].value_counts().sort_index()
-print(year_counts)
+# Tier 2: Median/Seasonal for heavily missing values
+tier2_cols = ['Total_N', 'Total_P', 'Orthophosphate']
 
-#Visualise data availability
-year_counts.plot(kind='bar', title='Sample Count by Year')
+for col in tier2_cols:
+    df_small[col] = df_small.groupby('Season')[col].transform(lambda x: x.fillna(x.median()))
+    df_small[col] = df_small[col].fillna(df_small[col].median())
 
-#Check descriptive stats for Temperature by year
-yearly_stats = df_small.groupby('Year')['Temperature'].describe()
-print(yearly_stats.loc[1980:1995])  # focus on period of interest
+# Tier 3: Minimal imputation for Nitrate (retain for low-weight WQI use)
+df_small['Nitrate'] = df_small['Nitrate'].fillna(df_small['Nitrate'].median())
 
-#Quick visual of the spike
-df_small.groupby('Year')['Temperature'].median().plot(title='Yearly Median Temperature')
+# Standardization (after imputation, before outlier removal)
+scaler = StandardScaler()
+all_numeric = ['Temperature', 'pH', 'DO', 'Conductivity', 'Total_N', 'Total_P', 'Orthophosphate', 'Nitrate']
+df_small[all_numeric] = scaler.fit_transform(df_small[all_numeric])
+
+# Check
+print("\nPost-Imputation & Scaling Summary:")
+print(df_small.describe().T)
+
+# Save Cleaned Dataset
+output_path = r"C:\Users\kosii\OneDrive\Documents\water-quality-cleaned.csv"
+df_small.to_csv(output_path, index=False)
+print(f"\n Clean dataset saved as: {output_path}")
