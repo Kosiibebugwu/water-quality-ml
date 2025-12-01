@@ -11,10 +11,10 @@ data/
 reports/
   figures/            # Visualisations and graphs
 ## Team Roles
-- **Kosi:** Data preprocessing, parameter selection, and data quality analysis.
-- **Noor:** Exploratory visualisation and statistical analysis.
-- **Lucy:** MLR model building and interpretation.
-- **John:** Code quality assurance, debugging and optimisation of scripts.
+- **Kosi:** Data preprocessing, parameter selection, imputation, and data quality analysis.
+- **Noor:** 
+- **Lucy:** MLR model building, outlier removal, PCA transformation, RF + KNN ML models
+- **John:**
 
 ## Instructions
 1. Place `water-quality-1.csv` in the `data/raw/` folder (not included in repo).
@@ -30,5 +30,6 @@ Raw data is excluded for size and privacy reasons. Placeholders remain in the re
 Individual mini reports don't need to be fully formal or polished.
 Use them for housekeeping, we can combine to make the final report for the upload.
 Please upload under _reports/individual_.
+
 
 
