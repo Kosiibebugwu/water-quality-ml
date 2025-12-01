@@ -11,7 +11,7 @@ data/
 reports/
   figures/            # Visualisations and graphs
 ## Team Roles
-- **Kosi:** Data preprocessing, parameter selection, imputation, data quality analysis, assigneed WQI scores, NN modelling.
+- **Kosi:** Data preprocessing, parameter selection, imputation, data quality analysis, assigned WQI scores, NN modelling.
 - **Noor:** 
 - **Lucy:** MLR model building, outlier removal, PCA transformation, RF + KNN ML models
 - **John:**
@@ -30,6 +30,7 @@ Raw data is excluded for size and privacy reasons. Placeholders remain in the re
 Individual mini reports don't need to be fully formal or polished.
 Use them for housekeeping, we can combine to make the final report for the upload.
 Please upload under _reports/individual_.
+
 
 
 
