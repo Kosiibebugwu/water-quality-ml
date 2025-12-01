@@ -185,28 +185,3 @@ plt.show()
 
 df_year[["Temperature", "WQI"]].corr()
 
-# LONG-TERM TEMPERATURE TREND (STANDARDISED)
-df_year = df.groupby("Year")["Temperature"].mean().reset_index()
-
-plt.figure(figsize=(12,5))
-plt.plot(df_year["Year"], df_year["Temperature"], linewidth=2)
-plt.title("Standardised Temperature Trend (1970–2011)")
-plt.xlabel("Year")
-plt.ylabel("Mean Standardised Temperature (z-score)")
-plt.grid(True)
-plt.show()
-
-temp_mean = df["Temperature"].mean()
-temp_std = df["Temperature"].std()
-
-df["Temperature_real"] = df["Temperature"] * temp_std + temp_mean
-
-df_year = df.groupby("Year")["Temperature_real"].mean().reset_index()
-
-plt.figure(figsize=(12,5))
-plt.plot(df_year["Year"], df_year["Temperature_real"], linewidth=2)
-plt.title("Long-term Temperature Trend (1970–2011)")
-plt.xlabel("Year")
-plt.ylabel("Mean Temperature (°C)")
-plt.grid(True)
-plt.show()
