@@ -11,10 +11,10 @@ data/
 reports/
   figures/            # Visualisations and graphs
 ## Team Roles
-- **Kosi:** Data preprocessing, parameter selection, and data quality analysis.
-- **Noor:** Exploratory visualisation and statistical analysis.
-- **Lucy:** MLR model building and interpretation.
-- **John:** Code quality assurance, debugging and optimisation of scripts.
+- **Kosi:** Data preprocessing, parameter selection, imputation, data quality analysis, created WQI targets using weighted parameter scores, NN modelling.
+- **Noor:** Exploratory visualisation, statistical analysis, development of the XGBoost and LightGBM models (Temperature + WQI), SHAP interpretation.
+- **Lucy:** MLR model building and analysis (OLS Regression + VIF), Mahalanobis outlier removal, clean dataset generation, PCA transformation, Random Forest model.
+- **John:** MLR model building, SVM model building, WQI weight + evalutaion system analysis.
 
 ## Instructions
 1. Place `water-quality-1.csv` in the `data/raw/` folder (not included in repo).
@@ -30,5 +30,14 @@ Raw data is excluded for size and privacy reasons. Placeholders remain in the re
 Individual mini reports don't need to be fully formal or polished.
 Use them for housekeeping, we can combine to make the final report for the upload.
 Please upload under _reports/individual_.
+
+
+
+
+
+
+
+
+
 
 
