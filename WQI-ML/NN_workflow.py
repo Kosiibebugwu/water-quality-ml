@@ -6,21 +6,19 @@ from tensorflow.keras import layers, models
 
 import matplotlib.pyplot as plt
 
-df = pd.read_csv(r"C:\Users\kosii\OneDrive\Documents\cleaned_with_WQI.csv")
+df = pd.read_csv(r"C:\Users\kosii\Downloads\cleaned_WQI_Score_Data_Final.csv")
 df.columns = df.columns.str.strip()
 
 print("Columns:")
 print(df.columns)
 
-# Encode 'Season' because neural networks can only process numeric inputs.
-# Without encoding, the NN would ignore or fail on the non-numeric season labels.
-df = pd.get_dummies(df, columns=["Season"], drop_first=True)
+# Define chemistry-only features
+chemical_cols = [
+    "pH", "DO", "Conductivity", "Temperature",
+    "Total_N", "Orthophosphate"
+]
 
-print("New columns after encoding:")
-print(df.columns)
-
-#define th features as (X) and the target as (Y)
-X = df.drop(["WQI"], axis=1)
+X = df[chemical_cols]
 y = df["WQI"]
 
 print("X shape:", X.shape)
