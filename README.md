@@ -13,7 +13,7 @@ reports/
 ## Team Roles
 - **Kosi:** Data preprocessing, parameter selection, imputation, data quality analysis, created WQI targets using weighted parameter scores, NN modelling.
 - **Noor:** Exploratory visualisation, statistical analysis, development of the XGBoost and LightGBM models (Temperature + WQI), SHAP interpretation.
-- **Lucy:** MLR model building (OLS Regression + VIF), Mahalanobis outlier removal, PCA transformation, Random Forest model.
+- **Lucy:** MLR model building and analysis (OLS Regression + VIF), Mahalanobis outlier removal, clean dataset generation, PCA transformation, Random Forest model.
 - **John:** MLR model building, SVM model building, WQI weight + evalutaion system analysis.
 
 ## Instructions
@@ -30,6 +30,7 @@ Raw data is excluded for size and privacy reasons. Placeholders remain in the re
 Individual mini reports don't need to be fully formal or polished.
 Use them for housekeeping, we can combine to make the final report for the upload.
 Please upload under _reports/individual_.
+
 
 
 
