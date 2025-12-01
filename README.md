@@ -13,8 +13,8 @@ reports/
 ## Team Roles
 - **Kosi:** Data preprocessing, parameter selection, imputation, data quality analysis, assigned WQI scores, NN modelling.
 - **Noor:** 
-- **Lucy:** MLR model building, outlier removal, PCA transformation, RF + KNN ML models
-- **John:**
+- **Lucy:** MLR model building, outlier removal, PCA transformation, RF + KNN ML models.
+- **John:** MLR model building, SVM model building, WQI weight + evalutaion system analysis.
 
 ## Instructions
 1. Place `water-quality-1.csv` in the `data/raw/` folder (not included in repo).
@@ -30,6 +30,7 @@ Raw data is excluded for size and privacy reasons. Placeholders remain in the re
 Individual mini reports don't need to be fully formal or polished.
 Use them for housekeeping, we can combine to make the final report for the upload.
 Please upload under _reports/individual_.
+
 
 
 
